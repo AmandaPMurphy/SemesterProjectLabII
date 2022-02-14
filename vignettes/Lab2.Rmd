@@ -64,7 +64,9 @@ summary(lm(recall~practice, data=recall_design))
 
 ### question,,, would you use questionnaire scoring in an experiment as a categorical of either High or Low,,, or is more common to use as a continuous variable for multiple regression...? I am confused on when you have multiple IV's should you always convert one to categorical to get a better analysis?
 
-
+```{r}
+pkgdown::build_site()
+```
 
 
 
