@@ -77,9 +77,7 @@ Noise <- rep( rep(c("Noisy","Quiet"),each=6),10)
 ```
 
 
-```{r}
-pkgdown::clean_site()
-```
+
 
 
 
