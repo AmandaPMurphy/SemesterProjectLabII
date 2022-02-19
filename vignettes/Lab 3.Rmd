@@ -13,6 +13,8 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tibble)
 library(dplyr)
 
+#Literacy rate Y is predicted by number of X- newspapers bought per week, and T- televisions per family, per 1000 people in each country- Poland, Italy, Scotland , Sweden.
+
 country <- c("Poland", "Italy", "Scotland", "Sweden")
 Newspapers <- c(280,100,14,130)
 Television <- c(440,22,180,147)
