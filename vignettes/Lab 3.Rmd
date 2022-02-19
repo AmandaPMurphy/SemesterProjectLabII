@@ -56,3 +56,8 @@ cor(residuals(lm.newspaper_tv),data$Y)^2
 
 ```
 
+```{r}
+pkgdown::build_articles
+
+```
+
