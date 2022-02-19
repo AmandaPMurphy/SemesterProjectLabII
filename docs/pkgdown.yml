@@ -2,7 +2,8 @@ pandoc: 2.11.4
 pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
+  Lab 3: Lab 3.html
   Lab1: Lab1.html
   Lab2: Lab2.html
-last_built: 2022-02-16T17:02Z
+last_built: 2022-02-19T20:42Z
 
