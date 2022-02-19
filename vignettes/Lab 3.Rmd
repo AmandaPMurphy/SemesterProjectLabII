@@ -1,0 +1,56 @@
+---
+title: "Lab 3"
+author: "Amanda Murphy"
+date: "2/19/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tibble)
+library(dplyr)
+
+country <- c("Poland", "Italy", "Scotland", "Sweden")
+Newspapers <- c(280,100,14,130)
+Television <- c(440,22,180,147)
+Literacy <- c(.15,.98,.49,.29)
+
+data <- tibble(X = c(280,100,14,130),
+               T = c(440,22,180,147),
+               Y = c(.15,.98,.49,.29))
+
+
+          
+(overall_model <- summary(lm(Literacy~Television+Newspapers, data=data)))
+
+
+cor(data)
+
+```
+
+
+```{r}
+lm.x <- lm(Literacy~Newspapers, data=data)
+```
+
+
+
+```{r}
+#correlation between both independent variables(newspaper and tv's)
+lm.newspaper_tv <- lm(X~T, data=data)
+```
+
+```{r}
+#part of newspapers that is not correlated with TV's....
+residuals(lm.newspaper_tv)
+```
+
+#The newspaper variable and solely its association rate with Literacy Rates for each country.
+```{r}
+cor(residuals(lm.newspaper_tv),data$Y)^2 
+
+```
+

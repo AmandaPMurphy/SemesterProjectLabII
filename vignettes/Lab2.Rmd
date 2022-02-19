@@ -67,5 +67,77 @@ summary(lm(recall~practice, data=recall_design))
 would you use questionnaire scoring in an experiment as a categorical of either High or Low,,, or is more common to use as a continuous variable for multiple regression...? I am confused on when you have multiple IV's should you always convert one to categorical to get a better analysis?
 
 
+1.(3 points) The following code roughly reproduces figure 5.5 from the textbook (Abdi et al., 2009). Modify the ggplot code so that the graph looks as close as possible to the figure from textbook:
+change the x-axis title
+change the y-axis title
+make the x-axis and y axis ticks the same
+include different symbols to differentiate the lines
 
+
+
+```{r}
+slamecka_design <- tibble(number_of_learning_trials = rep(c(2,4,8), each=6),
+                          number_of_IL = rep(rep(c(2,4,8), 2), 3),
+                          subjects = 1:18,
+                          recall = c(35,21,6,
+                                   39,31,8,
+                                   40,34,18,
+                                   52,42,26,
+                                   61,58,46,
+                                   73,66,52
+                                   )
+                          )
+
+slamecka_design$number_of_learning_trials <- as.factor(slamecka_design$number_of_learning_trials)
+
+ggplot(slamecka_design,aes(x=number_of_IL,
+                           group = number_of_learning_trials, 
+                           y=recall, shape= number_of_learning_trials))+
+  geom_line(stat = "summary", fun = "mean")+
+  geom_point(stat = "summary", fun = "mean")+
+  theme_classic()+
+  xlab("number of interpolated lists")+
+  ylab("memory recall")+
+  scale_y_continuous(breaks = c(20,40,60,80), limits=c(0,80))+
+  scale_x_continuous(breaks = c(2,4,8))
+```
+ ##labels =c("Learning Trials"),3))+ <- what i was doing for the labels on the left side of the graph
+
+2.
+
+
+```{r}
+three_by_three <- tibble(reward = rep(c("0","50","1000000"),each = 9),
+                         practice = rep(rep(c(2,4,8), each=3),
+                         3),
+                         distraction= as.factor(rep(c(0,4,8),9)),
+                         recall = c(5,3,1,
+                                    6,4,2,
+                                    7,5,3,
+                                    5,3,1,
+                                    6,4,2,
+                                    7,5,3,
+                                    5,3,1,
+                                    6,4,2,
+                                    7,5,3))
+                        
+                         
+    
+
+
+ggplot(three_by_three,aes(x=practice,
+                         group = distraction, 
+                         y=recall, 
+                         shape= distraction))+
+  geom_line()+
+  geom_point()+
+  theme_classic()+
+  xlab("number of interpolated lists")+
+  ylab("memory recall")+
+  scale_y_continuous(breaks = c(0,5,10,15,20), limits=c(0,20))+
+  scale_x_continuous(breaks = c(2,4,8))
+
+facet_wrap(~reward)
+
+```
 
