@@ -15,13 +15,13 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(SemesterProjectLabII)
+#library(SemesterProjectLabII)
 ```
 
 
 
 ```{r}
-library(pkgdown)
+#library(pkgdown)
 ```
 
 Your task is to convert the data to long format, and store the long-format data in a data.frame or tibble. Print out some of the long-form data in your lab1.Rmd, to show that you did make the appropriate conversion. For extra fun, show two different ways to solve the problem.

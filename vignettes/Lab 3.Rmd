@@ -11,10 +11,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r}
-library(pkgdown
-      )
-
-pkgdown::build_article
 
 ```
 
@@ -59,7 +55,8 @@ lm.newspaper_tv <- lm(X~T, data=data)
 residuals(lm.newspaper_tv)
 ```
 
-#The newspaper variable and solely its association rate with Literacy Rates for each country.
+# The newspaper variable and solely its association rate with Literacy Rates for each country.
+
 ```{r}
 cor(residuals(lm.newspaper_tv),data$Y)^2 
 
