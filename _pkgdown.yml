@@ -1,0 +1,16 @@
+template:
+  bootstrap: 5
+  bootswatch: cyborg
+  theme: arrow-dark
+
+navbar:
+  structure:
+     left:  [intro, articles, Rbasics, reference, tutorials, news]
+     right: [search, github]
+  components:
+   Rbasics:
+      text: R basics Quick Sheet
+      menu:
+      - text: My r basics page
+        href: articles/Rbasics/Rbasics.html
+
