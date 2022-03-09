@@ -1,0 +1,174 @@
+---
+title: "Lab 4"
+author: "Amanda Murphy"
+date: "3/2/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tibble)
+romeo_juliet <- tibble(subjects = 1:20,
+                       Group = rep(c("No Context",
+                                 "Context Before",
+                                 "Context After",
+                                 "Partial Context"), each = 5),
+                       Comprehension = c(3,3,2,4,3,
+                                         5,9,8,4,9,
+                                         2,4,5,4,1,
+                                         5,4,3,5,4
+                                   )
+                          )
+
+romeo_juliet$Group <- factor(romeo_juliet$Group,
+                             levels = c("No Context",
+                                 "Context Before",
+                                 "Context After",
+                                 "Partial Context"))
+
+knitr::kable(romeo_juliet)
+```
+
+##using mutate function to create new columns in the data set:: mututate(name_your_column <- function_you_want (dataset$column you want))
+
+```{r}
+library(dplyr)
+# get grand mean
+grand_mean <- mean(romeo_juliet$Comprehension)
+
+# get squared deviations from grand mean
+SS_total_table <- romeo_juliet %>%
+  mutate(grand_mean = mean(romeo_juliet$Comprehension)) %>%
+  mutate(deviations = Comprehension - grand_mean,
+         sq_deviations = (Comprehension - grand_mean)^2)
+
+#sum them
+SS_total <- sum(SS_total_table$sq_deviations)
+```
+
+
+```{r}
+# get group means
+group_means <- romeo_juliet %>%
+  group_by(Group) %>%
+  summarize(mean_Comprehension = mean(Comprehension),.groups = 'drop')
+
+# get squared deviations between grand mean and group means
+SS_between_table <- romeo_juliet %>%
+  mutate(grand_mean = mean(romeo_juliet$Comprehension),
+         group_means = rep(group_means$mean_Comprehension, each = 5)) %>%
+  mutate(deviations = group_means - grand_mean,
+         sq_deviations = (group_means - grand_mean)^2)
+
+SS_between <- sum(SS_between_table$sq_deviations)
+```
+
+
+```{r}
+# get group means
+group_means <- romeo_juliet %>%
+  group_by(Group) %>%
+  summarize(mean_Comprehension = mean(Comprehension), .groups = 'drop')
+
+# get squared deviations between group means and original data points
+SS_within_table <- romeo_juliet %>%
+  mutate(group_means = rep(group_means$mean_Comprehension, each = 5)) %>%
+  mutate(deviations = group_means - Comprehension,
+         sq_deviations = (group_means - Comprehension)^2)
+
+SS_within <- sum(SS_within_table$sq_deviations)
+```
+
+
+```{r}
+library(tibble)
+example_data <- tibble(Group = rep(c("A","B"), each = 5),
+                       DV = c(2,4,3,5,4,7,6,5,6,7))
+```
+
+```{r}
+t_test <- t.test(DV~Group, var.equal=TRUE,data = example_data)
+my_aov <- summary(aov(DV~Group, data = example_data))
+
+t_test$p.value
+my_aov[[1]]$`Pr(>F)`[1]
+
+```
+
+
+
+```{r}
+t_test$statistic
+round(t_test$p.value, digits = 5) == round(my_aov[[1]]$`Pr(>F)`[1], digits=5)
+
+```
+
+```{r}
+my_aov[[1]]$`F value`[1]
+```
+
+```{r}
+t_test$statistic^2
+
+```
+
+
+
+
+
+```{r}
+library(data.table)
+library(readr)
+all_data <- read_csv("data/Jamesetal.csv")
+
+```
+
+#find IV = condition and label columns
+```{r}
+all_data$Condition <- as.factor(all_data$Condition)
+levels(all_data$Condition) <- c("Control",
+                                "Reactivation+Tetris", 
+                                "Tetris_only",
+                                "Reactivation_only")
+
+
+```
+
+```{r}
+library(ggplot2)
+ggplot(all_data, aes(x=Condition, y=Days_One_to_Seven_Number_of_Intrusions,
+                     fill= Condition))+
+  geom_bar(stat="summary",fun="mean", position="dodge")
+```
+
+
+```{r}
+my_aov2 <- aov(Days_One_to_Seven_Number_of_Intrusions~Condition, data= all_data)
+
+print(my_aov2)
+
+library(papaja)
+
+apa_print(my_aov2)
+
+apa_printout <- papaja::apa_print(my_aov2)
+```
+
+
+```{r}
+
+summary(my_aov2)
+
+my_aov
+```
+
+
+Using a one factor between subjects ANOVA, group means were used as the four interventions: Control(no intervention), Reactivation Plus Tetris, Tetris only, and Reactivation only. An effect between interventions types was found significant at `r apa_printout$full_result$Condition`.
+  
+  
+
+
+
