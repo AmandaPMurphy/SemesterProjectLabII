@@ -1,0 +1,99 @@
+---
+title: "Lab 5"
+author: "Amanda Murphy"
+date: "3/14/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#1. pwr function-- compute anova POWER
+
+```{r}
+
+library(pwr)
+pwr.anova.test(k=3,
+               n=10,
+               f=.25,
+               sig.level = .05,
+               power =)
+
+```
+
+```{r}
+library(tibble)
+  library(effectsize)
+
+
+run_simultation <- function(){
+  levels <- 4
+  n_per_level <- 10
+  
+  # repeat the above many times to compute the F-distribution
+  
+  alternative_data <- tibble(subjects = 1:(levels*n_per_level),
+                        IV = as.factor(rep(1:levels, each = n_per_level)),
+                        DV = c(rnorm(n_per_level, 0, 1),
+                               rnorm(n_per_level, 0, 1),
+                               rnorm(n_per_level, 1, 1),
+                               rnorm(n_per_level, 0, 1)
+                               )
+                        )
+  aov.out <- aov(DV ~ IV, data = alternative_data)
+  
+  summary_out <- summary(aov.out)
+  
+  
+  eta.squared(aov.out) 
+}
+
+
+
+
+```
+
+
+
+
+
+```{r}
+run_simultation <- function(){
+  levels <- 4
+  n_per_level <- 10
+  num_questions <- 10
+  
+  
+  # repeat the above many times to compute the F-distribution
+  
+  alternative_data <- tibble(subjects = 1:(levels*n_per_level),
+                        IV = as.factor(rep(1:levels, each = n_per_level)),
+                        DV = c(rnorm(n_per_level, 0, 1),
+                               rnorm(n_per_level, 0, 1),
+                               rnorm(n_per_level, 1, 1),
+                               rnorm(n_per_level, 0, 1)
+                               )
+                        )
+  aov.out <- aov(DV ~ IV, data = alternative_data)
+  
+  summary_out <- summary(aov.out) 
+  effect_size <- eta_squared(aov.out)
+  
+  library(lsr)
+  eta <-etaSquared(aov.out)
+}
+
+
+eta <-etaSquared(aov.out)
+
+
+
+
+```
+
+```{r}
+run_simultation()
+```
+
+
