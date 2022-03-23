@@ -5,7 +5,7 @@ template:
 
 navbar:
   structure:
-     left:  [articles, Rbasics, reference, tutorials, news]
+     left:  [articles, Rbasics, slides reference, tutorials, news]
      right: [search, github]
   components:
    Rbasics:
@@ -23,4 +23,8 @@ navbar:
       - text: Lab 3
         href: articles/Lab3.html
 
-
+   slides:
+      text: Slides
+      menu:
+      - text: Ios slides
+        href: slides/ios.slides.html
