@@ -58,42 +58,111 @@ run_simultation <- function(){
 
 
 
+Create simulated data for the above design that could be produced by the null hypothesis, and that results in a 𝐹
+F
+ value that is smaller than the critical value for 𝐹
+F
+ in this design (assume alpha = .05). Report the ANOVA, and show a ggplot of the means in the simulated data. Furthermore, display the individual data points on top of the means. Would you reject the null hypothesis in this situation, and would you be incorrect or correct in rejecting the null? (3 points)
+
 ```{r}
-run_simultation <- function(){
-  levels <- 4
-  n_per_level <- 10
-  num_questions <- 10
-  
-  
-  # repeat the above many times to compute the F-distribution
-  
-  alternative_data <- tibble(subjects = 1:(levels*n_per_level),
-                        IV = as.factor(rep(1:levels, each = n_per_level)),
-                        DV = c(rnorm(n_per_level, 0, 1),
-                               rnorm(n_per_level, 0, 1),
-                               rnorm(n_per_level, 1, 1),
-                               rnorm(n_per_level, 0, 1)
-                               )
-                        )
-  aov.out <- aov(DV ~ IV, data = alternative_data)
-  
-  summary_out <- summary(aov.out) 
-  effect_size <- eta_squared(aov.out)
-  
-  library(lsr)
-  eta <-etaSquared(aov.out)
+
+library(tibble)
+
+# construct a dataframe to represent sampling random subjects into each group of the design
+
+levels <- 3
+n_per_level <- 10
+
+random_data <- tibble(subjects = 1:(levels*n_per_level),
+                      IV = as.factor(rep(1:levels, each = n_per_level)),
+                      DV = rnorm(levels*n_per_level, 0, 1)
+                      )
+
+critical_F <- qf(.95,2,27)
+
+# compute the ANOVA and extracted the F-value
+aov.out <- aov(DV ~ IV, data = random_data)
+simulated_F <- summary(aov.out)[[1]]$`F value`[1]
+
+
+# repeat the above many times to compute the F-distribution
+save_F_values <- length(1000)
+for(i in 1:1000){
+random_data <- tibble(subjects = 1:(levels*n_per_level),
+                      IV = as.factor(rep(1:levels, each = n_per_level)),
+                      DV = rnorm(levels*n_per_level, 0, 1)
+                      )
+aov.out <- aov(DV ~ IV, data = random_data)
+simulated_F <- summary(aov.out)[[1]]$`F value`[1]
+save_F_values[i] <- simulated_F
+
+if(simulated_F < critical_F) break
+}
+
+summary(aov.out)
+
+#GRAPH
+
+library(ggplot2)
+
+ggplot(random_data, aes(x= IV, y=DV))+
+  geom_bar(stat= "summary", fun= "mean")+
+  geom_point()
+```
+
+#No you would not reject the null for the random simulated data because the F value is not larger than the critical F computed for this data set.
+
+2. Create simulated data for the above design that could be produced by the null hypothesis, and that results in a 𝐹
+F
+ value that is larger than the critical value for 𝐹
+F
+ in this design (assume alpha = .05). Report the ANOVA, and show a ggplot of the means in the simulated data. Furthermore, display the individual data points on top of the means. Would you reject the null hypothesis in this situation, and would you be incorrect or correct in rejecting the null? (3 points)
+
+```{r}
+# construct a dataframe to represent sampling random subjects into each group of the design
+
+levels <- 3
+n_per_level <- 10
+
+random_data <- tibble(subjects = 1:(levels*n_per_level),
+                      IV = as.factor(rep(1:levels, each = n_per_level)),
+                      DV = rnorm(levels*n_per_level, 0, 1)
+                      )
+
+critical_F <- qf(.95,2,27)
+
+# compute the ANOVA and extracted the F-value
+aov.out <- aov(DV ~ IV, data = random_data)
+simulated_F <- summary(aov.out)[[1]]$`F value`[1]
+
+
+# repeat the above many times to compute the F-distribution
+save_F_values <- length(1000)
+for(i in 1:1000){
+random_data <- tibble(subjects = 1:(levels*n_per_level),
+                      IV = as.factor(rep(1:levels, each = n_per_level)),
+                      DV = rnorm(levels*n_per_level, 0, 1)
+                      )
+aov.out <- aov(DV ~ IV, data = random_data)
+simulated_F <- summary(aov.out)[[1]]$`F value`[1]
+save_F_values[i] <- simulated_F
+
+if(simulated_F > critical_F) break
 }
 
 
-eta <-etaSquared(aov.out)
+summary(aov.out)
 
+#GRAPH
 
+library(ggplot2)
 
-
+ggplot(random_data, aes(x= IV, y=DV))+
+  geom_bar(stat= "summary", fun= "mean")+
+  geom_point()
+```
 ```
 
-```{r}
-run_simultation()
-```
+
 
 

@@ -3,9 +3,12 @@ pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
   Lab 3: Lab 3.html
+  Lab 6: Lab 6.html
   Lab1: Lab1.html
   Lab2: Lab2.html
   Lab4: Lab4.html
+  Lab5: Lab5.html
+  Lab7: Lab7.html
   Rbasics: Rbasics/Rbasics.html
-last_built: 2022-03-09T17:14Z
+last_built: 2022-04-04T23:47Z
 
