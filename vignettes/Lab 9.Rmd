@@ -20,6 +20,7 @@ C. There are 6 subjects in the experiment, and they are each measured once in ea
 
 ```{r}
 library(data.table)
+library(pkgdown)
 
 subject_control <- rnorm(6,0,1)
 
@@ -47,46 +48,5 @@ sim_subject <-  sum_subject <- data.frame(subject = rep(subnum,5),
 
 ```
 
-```{r}
-my_levels <- c("A","B","C")
 
-one_factor_rm_sim <- function(nsubs, 
-                              level_names, 
-                              level_means,
-                              level_sds,
-                              subject_means){
-  
-  shift_factor <- rnorm(n= nsubs*length(level_names),
-                        mean = subject_means, 
-                        sd = subject_sds)
-  
-  sim_data <- data.frame(subject = as.factor(rep(1:nsubs, each = length(level_names))),
-                         IV = as.factor(rep(level_names, nsubs)),
-                         DV = rnorm(n = nsubs*length(level_names),
-                                    mean = level_means, 
-                                    sd = level_sds)
-                         )
-              
-                        
-
-return(sim_data)
-                              
-  
-}
-
-one_factor_rm_sim(nsubs= 6,
-                  level_names = c("Down2","Down1","Control","Up1","Up2"),
-                  level_means = c(-2,-1,0,1,2),
-                  level_sds = 1)
-
-rnorm(n = 10,mean = c(-2,-1,0,1,2), sd = .1)
-
-
-sapply(x= rnorm(6,0,1), FUN= function(x){rnorm(n=5, mean=x, sd=1)} )
-
-
-library(dplyr)
-
-
-```
 

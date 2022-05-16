@@ -9,10 +9,5 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
-n <- 10
-factorial_data <- tibble(A = factor(rep(c("L1","L2"), each = n)),
-                         B = factor(rep(c("L1","L2"), n)),
-                         DV = rnorm(n*2,0,1))
-```
+
 
