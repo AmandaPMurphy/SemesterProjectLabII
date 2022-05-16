@@ -1,0 +1,92 @@
+---
+title: "Lab9"
+author: "Amanda Murphy"
+date: "5/2/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+1. Create an R script that can generate simulated data for the following repeated measures design. (2 points)
+A. The dependent variable is assumed to come from a normal distribution with mean = 0 and standard deviation = 1.
+
+B. There is one repeated measures factor with 5 levels (Down1, Down2, Control, Up1, Up2). The control group is assumed to have no effect. The Down1 and Down2 levels shift the mean down by 1 and 2 standard deviations, respectively. The Up1 and Up2 levels shift the mean up by 1 and 2 standard deviations, respectively.
+
+C. There are 6 subjects in the experiment, and they are each measured once in each condition. The 6 subjects are assumed to be different from one another (e.g., they will have different baseline means in the control condition), but they will all be influenced by the IV in the exact same way (e.g., no interaction).
+
+```{r}
+library(data.table)
+
+subject_control <- rnorm(6,0,1)
+
+make_one_subject_data <- function(){
+  subnum <- 1
+  subject_baseline <- rnorm(1,0,1)
+  
+  control <- rnorm(1, subject_baseline, 1)
+  
+  down1 <- rnorm(1, subject_baseline-1, 1)
+  down2 <- rnorm(1, subject_baseline-2, 1)
+  
+  up1 <- rnorm(1, subject_baseline+1, 1)
+  up2 <- rnorm(1, subject_baseline+2, 1)
+  
+sim_subject <-  sum_subject <- data.frame(subject = rep(subnum,5),
+                            IV = c("Up2,Up1,Control,Down1,Down2"),
+                            DV = c(up2,up1,control,down1,down2)
+                            )
+  
+  return(sim_subject)
+  
+}
+
+
+```
+
+```{r}
+my_levels <- c("A","B","C")
+
+one_factor_rm_sim <- function(nsubs, 
+                              level_names, 
+                              level_means,
+                              level_sds,
+                              subject_means){
+  
+  shift_factor <- rnorm(n= nsubs*length(level_names),
+                        mean = subject_means, 
+                        sd = subject_sds)
+  
+  sim_data <- data.frame(subject = as.factor(rep(1:nsubs, each = length(level_names))),
+                         IV = as.factor(rep(level_names, nsubs)),
+                         DV = rnorm(n = nsubs*length(level_names),
+                                    mean = level_means, 
+                                    sd = level_sds)
+                         )
+              
+                        
+
+return(sim_data)
+                              
+  
+}
+
+one_factor_rm_sim(nsubs= 6,
+                  level_names = c("Down2","Down1","Control","Up1","Up2"),
+                  level_means = c(-2,-1,0,1,2),
+                  level_sds = 1)
+
+rnorm(n = 10,mean = c(-2,-1,0,1,2), sd = .1)
+
+
+sapply(x= rnorm(6,0,1), FUN= function(x){rnorm(n=5, mean=x, sd=1)} )
+
+
+library(dplyr)
+
+
+```
+

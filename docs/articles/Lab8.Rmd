@@ -1,0 +1,61 @@
+---
+title: "Lab8"
+author: "Amanda Murphy"
+date: "4/6/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(pkgdown)
+```
+
+1. Consider a 2x2 design. Assume the DV is measured from a normal distribution with mean 0, and standard deviation 1. Assume that the main effect of A causes a total shift of .5 standard deviations of the mean between the levels. Assume that level 1 of B is a control, where you expect to measure the standard effect of A. Assume that level 2 of B is an experimental factor intended to reduce the effect of A by .25 standard deviations.
+
+A. create a ggplot2 figure that depicts the expected results from this design (2 points)
+
+```{r}
+library(tidyverse)
+
+df <- data.frame(A = c("A1","A1","A2","A2"),
+                 B = c("1","2","1","2"),
+                 DV = c(0,0,.5,.25)
+                 )
+
+ggplot(df, aes(y = DV, x = B, color = A)) +
+  geom_point(stat= "identity", position = "dodge")
+```
+
+```{r}
+# N per group
+N <- 120
+
+A_pvalue <- c()
+B_pvalue <- c()
+AB_pvalue <- c()
+for(i in 1:1000){
+  IVA <- rep(rep(c("1","2"), each=2),N)
+  IVB <- rep(rep(c("1","2"), 2),N)
+  DV <- c(replicate(N,c(rnorm(1,0,1), # means A1B1
+                        rnorm(1,0,1), # means A1B2
+                        rnorm(1,.5,1), # means A2B1
+                        rnorm(1,.25,1)  # means A2B2
+          )))
+  sim_df <- data.frame(IVA,IVB,DV)
+  
+  aov_results <- summary(aov(DV~IVA*IVB, sim_df))
+  A_pvalue[i]<-aov_results[[1]]$`Pr(>F)`[1]
+  B_pvalue[i]<-aov_results[[1]]$`Pr(>F)`[2]
+  AB_pvalue[i]<-aov_results[[1]]$`Pr(>F)`[3]
+}
+
+length(A_pvalue[A_pvalue<0.05])/1000
+length(B_pvalue[B_pvalue<0.05])/1000
+length(AB_pvalue[AB_pvalue<0.05])/1000
+```
+
+

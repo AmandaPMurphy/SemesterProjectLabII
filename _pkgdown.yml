@@ -14,7 +14,7 @@ navbar:
       - text: My r basics page
         href: articles/Rbasics/Rbasics.html
    Articles:
-     text: My Labs
+     text: Labs
      menu:
       - text: Lab 1
         href: articles/Lab1.html
@@ -22,9 +22,25 @@ navbar:
         href: articles/Lab2.html
       - text: Lab 3
         href: articles/Lab3.html
-
-   slides:
+      - text: Lab 4
+        href: articles/Lab4.html
+      - text: Lab 5
+        href: articles/Lab5.html
+      - text: Lab 6
+        href: articles/Lab6.html
+      - text: Lab 7
+        href: articles/Lab7.html
+      - text: Lab 8
+        href: articles/Lab8.html
+      - text: Lab 9
+        href: articles/Lab9.html
+   Slides:
       text: Slides
       menu:
       - text: Ios slides
         href: slides/ios.slides.html
+   Poster:
+      text: Poster Templates
+      menu:
+      - text: Posters
+        href: Posters.html
